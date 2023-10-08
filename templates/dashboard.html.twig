@@ -12,6 +12,10 @@
         {% endblock %}
     </head>
     <body>
+        <div>
+            <a href="{{ path('tasks_index') }}">Tasks</a>
+            <a href="{{ path('projects_index') }}">Projects</a>
+        </div>
         {% block body %}{% endblock %}
     </body>
 </html>
