@@ -31,9 +31,18 @@ class Project
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Task::class)]
     private Collection $tasks;
 
+    /**
+     * Many Projects have Many Users.
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
+    #[ORM\JoinTable(name: 'projects_users')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,5 +126,20 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function setUsers(ArrayCollection $users): void
+    {
+        $this->users = $users;
+    }
+
+    public function addUser(User $user): void
+    {
+        $this->users[] = $user;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -28,6 +30,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * Many Users have Many Tasks.
+     * @var Collection<int, Task>
+     */
+    #[ORM\ManyToMany(targetEntity: Task::class, mappedBy: 'users')]
+    private Collection $tasks;
+
+    /**
+     * Many Users have Many Projects.
+     * @var Collection<int, Project>
+     */
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
+    private Collection $projects;
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -62,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
@@ -97,5 +120,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function setProjects(ArrayCollection $projects)
+    {
+        $this->projects = $projects;
+    }
+
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function setTasks(ArrayCollection $tasks)
+    {
+        $this->tasks = $tasks;
+    }
+
+    public function addProject(Project $project)
+    {
+        $this->projects[] = $project;
+    }
+
+    public function addTask(Task $task)
+    {
+        $this->tasks[] = $task;
     }
 }
