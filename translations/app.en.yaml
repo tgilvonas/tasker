@@ -1,9 +1,14 @@
+app_name: Tasker
 login: Log in
 logout: Log out
 tasks: Tasks
 projects: Projects
 users: Users
-app_name: Tasker
 email: Email
 password: Password
 register: Register
+create: Create
+edit: Edit
+delete: Delete
+no_records: There are no records
+actions: Actions

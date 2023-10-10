@@ -1,5 +1,42 @@
 {% extends 'dashboard.html.twig' %}
 
+{% trans_default_domain 'app' %}
+
 {% block body %}
-<div>Users</div>
+    <h1>{{ 'users'|trans }}</h1>
+    <div class="mb-3">
+        <a href="{{ path('create_user') }}" class="btn btn-success">{{ 'create'|trans }}</a>
+    </div>
+    {% if users and users|length %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{{ 'email'|trans }}</th>
+                    <th>{{ 'actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a href="{{ path('update_user', {'id': user.id}) }}" class="btn btn-primary">
+                                {{ 'edit'|trans }}
+                            </a>
+                            <a href="{{ path('delete_user', {'id': user.id}) }}" class="btn btn-danger">
+                                {{ 'delete'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {#
+        {% if showPagination|default(false) and showPagination %}
+            {{ knp_pagination_render(users) }}
+        {% endif %}
+        #}
+    {% else %}
+        <div class="default-padding">{{ 'no_records'|trans }}</div>
+    {% endif %}
 {% endblock %}
