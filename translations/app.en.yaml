@@ -8,8 +8,12 @@ email: Email
 password: Password
 register: Register
 create: Create
+update: Update
 edit: Edit
 delete: Delete
 no_records: There are no records
 actions: Actions
 name: Name
+project: Project
+task: Task
+save: Save

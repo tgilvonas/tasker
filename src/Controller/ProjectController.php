@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
+use App\Form\ProjectFormType;
 use App\Repository\ProjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectController extends AbstractController
 {
+    protected EntityManagerInterface $entityManager;
+
     protected ProjectRepository $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository)
+    public function __construct(ProjectRepository $projectRepository, EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->projectRepository = $projectRepository;
     }
 
@@ -25,24 +32,53 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/projects/create', name: 'create_project')]
-    public function create()
+    public function create(Request $request): Response
     {
-        return $this->render('project/create.html.twig', [
+        $project = new Project();
 
+        $form = $this->createForm(ProjectFormType::class, $project);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $project = $form->getData();
+            $this->entityManager->persist($project);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('projects_index');
+        }
+
+        return $this->render('project/create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/projects/update/{id}', name: 'update_project')]
-    public function update(int $id)
+    public function update(Request $request, int $id): Response
     {
-        return $this->render('project/update.html.twig', [
+        $project = $this->entityManager->getRepository(Project::class)->find($id);
 
+        $form = $this->createForm(ProjectFormType::class, $project);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $project = $form->getData();
+            $this->entityManager->persist($project);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('projects_index');
+        }
+
+        return $this->render('project/update.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/projects/delete/{id}', name: 'delete_project')]
-    public function delete(int $id)
+    public function delete(int $id): Response
     {
-        dd('project delete');
+        $project = $this->entityManager->getRepository(Project::class)->find($id);
+
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('projects_index');
     }
 }

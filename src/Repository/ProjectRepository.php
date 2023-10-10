@@ -24,7 +24,7 @@ class ProjectRepository extends ServiceEntityRepository
     public function getProjectsList(): array
     {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.name', 'ASC')
+            ->orderBy('p.ord', 'ASC')
             ->getQuery()
             ->getResult();
     }
