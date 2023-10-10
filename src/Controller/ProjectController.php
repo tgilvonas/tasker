@@ -17,7 +17,7 @@ class ProjectController extends AbstractController
 
     protected ProjectRepository $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ProjectRepository $projectRepository)
     {
         $this->entityManager = $entityManager;
         $this->projectRepository = $projectRepository;
@@ -54,7 +54,7 @@ class ProjectController extends AbstractController
     #[Route('/projects/update/{id}', name: 'update_project')]
     public function update(Request $request, int $id): Response
     {
-        $project = $this->entityManager->getRepository(Project::class)->find($id);
+        $project = $this->projectRepository->find($id);
 
         $form = $this->createForm(ProjectFormType::class, $project);
 
@@ -74,7 +74,7 @@ class ProjectController extends AbstractController
     #[Route('/projects/delete/{id}', name: 'delete_project')]
     public function delete(int $id): Response
     {
-        $project = $this->entityManager->getRepository(Project::class)->find($id);
+        $project = $this->projectRepository->find($id);
 
         $this->entityManager->remove($project);
         $this->entityManager->flush();

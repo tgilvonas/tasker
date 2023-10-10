@@ -3,5 +3,35 @@
 {% trans_default_domain 'app' %}
 
 {% block body %}
-<div>Tasks</div>
+    <h1>{{ 'tasks'|trans }}</h1>
+    <div class="mb-3">
+        <a href="{{ path('create_task') }}" class="btn btn-success">{{ 'create'|trans }}</a>
+    </div>
+    {% if tasks and tasks|length %}
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>{{ 'name'|trans }}</th>
+                <th>{{ 'actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.name }}</td>
+                    <td>
+                        <a href="{{ path('update_task', {'id': task.id}) }}" class="btn btn-primary">
+                            {{ 'edit'|trans }}
+                        </a>
+                        <a href="{{ path('delete_task', {'id': task.id}) }}" class="btn btn-danger">
+                            {{ 'delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="mt-3">{{ 'no_records'|trans }}</div>
+    {% endif %}
 {% endblock %}

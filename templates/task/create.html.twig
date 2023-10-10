@@ -1,0 +1,8 @@
+{% extends 'dashboard.html.twig' %}
+
+{% trans_default_domain 'app' %}
+
+{% block body %}
+    <h1>{{ 'create'|trans }} {{ 'task'|trans }}</h1>
+    {{ form(form) }}
+{% endblock %}

@@ -21,6 +21,26 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    public function getTasksList(?int $projectId = null, ?int $userId = null, ?int $completed = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('t');
+
+        if (is_numeric($projectId)) {
+            $queryBuilder->andWhere('t.project_id = :project_id')
+                ->setParameter('project_id', $projectId);
+        }
+        if (is_numeric($userId)) {
+            //@todo
+        }
+        if (is_numeric($completed)) {
+            $queryBuilder->andWhere('t.completed = :completed')
+                ->setParameter('completed', $completed);
+        }
+
+        return $queryBuilder->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */
