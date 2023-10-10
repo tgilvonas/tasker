@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tasker - Register{% endblock %}
+{% trans_default_domain 'app' %}
+
+{% block title %}{{ 'app_name'|trans }} - {{ 'register'|trans }}{% endblock %}
 
 {% block body %}
     <div class="w-25 m-auto mt-3">
-        <h1>Register</h1>
+        <h1>{{ 'register'|trans }}</h1>
 
         {{ form_errors(registrationForm) }}
 
@@ -15,7 +17,7 @@
         }) }}
         {# {{ form_row(registrationForm.agreeTerms) }} #}
 
-        <button type="submit" class="btn btn-primary mt-3">Register</button>
+        <button type="submit" class="btn btn-primary mt-3">{{ 'register'|trans }}</button>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

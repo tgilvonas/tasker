@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% trans_default_domain 'app' %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Tasker{% endblock %}</title>
+        <title>{% block title %}{{ 'app_name'|trans }}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -15,23 +16,23 @@
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mb-3">
             <div class="container">
-                <a href="{{ path('app_dashboard') }}" class="navbar-brand">Tasker</a>
+                <a href="{{ path('app_dashboard') }}" class="navbar-brand">{{ 'app_name'|trans }}</a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse {# collapse #}" id="navbarSupportedContent" style="">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="{{ path('tasks_index') }}" class="nav-link">Tasks</a>
+                            <a href="{{ path('tasks_index') }}" class="nav-link">{{ 'tasks'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('projects_index') }}" class="nav-link">Projects</a>
+                            <a href="{{ path('projects_index') }}" class="nav-link">{{ 'projects'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('users_index') }}" class="nav-link">Users</a>
+                            <a href="{{ path('users_index') }}" class="nav-link">{{ 'users'|trans }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ path('app_logout') }}" class="nav-link">Log out</a>
+                            <a href="{{ path('app_logout') }}" class="nav-link">{{ 'logout'|trans }}</a>
                         </li>
                     </ul>
                     {#
