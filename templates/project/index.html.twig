@@ -1,5 +1,37 @@
 {% extends 'dashboard.html.twig' %}
 
+{% trans_default_domain 'app' %}
+
 {% block body %}
-<div>Projects</div>
+    <h1>{{ 'projects'|trans }}</h1>
+    <div class="mb-3">
+        <a href="{{ path('create_project') }}" class="btn btn-success">{{ 'create'|trans }}</a>
+    </div>
+    {% if projects and projects|length %}
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>{{ 'name'|trans }}</th>
+                <th>{{ 'actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>
+                        <a href="{{ path('update_project', {'id': project.id}) }}" class="btn btn-primary">
+                            {{ 'edit'|trans }}
+                        </a>
+                        <a href="{{ path('delete_project', {'id': project.id}) }}" class="btn btn-danger">
+                            {{ 'delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="mt-3">{{ 'no_records'|trans }}</div>
+    {% endif %}
 {% endblock %}
