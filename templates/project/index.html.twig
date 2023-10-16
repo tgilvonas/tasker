@@ -23,7 +23,7 @@
                         <a href="{{ path('update_project', {'id': project.id}) }}" class="btn btn-primary">
                             {{ 'edit'|trans }}
                         </a>
-                        <a href="{{ path('delete_project', {'id': project.id}) }}" class="btn btn-danger">
+                        <a href="{{ path('delete_project', {'id': project.id}) }}" onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');" class="btn btn-danger">
                             {{ 'delete'|trans }}
                         </a>
                     </td>
