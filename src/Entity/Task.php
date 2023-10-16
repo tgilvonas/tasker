@@ -25,8 +25,8 @@ class Task
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $time = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $completed = null;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $completed = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -88,12 +88,12 @@ class Task
         return $this;
     }
 
-    public function getCompleted(): ?int
+    public function getCompleted(): ?bool
     {
         return $this->completed;
     }
 
-    public function setCompleted(int $completed): static
+    public function setCompleted(?bool $completed): static
     {
         $this->completed = $completed;
 
