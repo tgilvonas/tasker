@@ -3,5 +3,6 @@
 {% trans_default_domain 'app' %}
 
 {% block body %}
-    <div>Create user</div>
+    <h1>{{ 'create'|trans }} {{ 'user'|trans }}</h1>
+    {{ form(form) }}
 {% endblock %}

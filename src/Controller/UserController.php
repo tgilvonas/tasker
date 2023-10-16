@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,23 +33,47 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'create_user')]
-    public function create()
+    public function create(Request $request): Response
     {
-        return $this->render('user/create.html.twig', [
+        $user = new User();
 
+        $form = $this->createForm(RegistrationFormType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('users_index');
+        }
+
+        return $this->render('user/create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/users/update/{id}', name: 'update_user')]
-    public function update(int $id)
+    public function update(Request $request, int $id): Response
     {
-        return $this->render('user/update.html.twig', [
+        $user = $this->userRepository->find($id);
 
+        $form = $this->createForm(RegistrationFormType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('users_index');
+        }
+
+        return $this->render('user/update.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/users/delete/{id}', name: 'delete_user')]
-    public function delete(int $id)
+    public function delete(int $id): Response
     {
         $user = $this->userRepository->find($id);
 
