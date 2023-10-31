@@ -12,6 +12,7 @@
             <thead>
             <tr>
                 <th>{{ 'name'|trans }}</th>
+                <th>{{ 'project'|trans }}</th>
                 <th>{{ 'date'|trans }}</th>
                 <th>{{ 'completed'|trans }}</th>
                 <th>{{ 'actions'|trans }}</th>
@@ -21,6 +22,7 @@
             {% for task in tasks %}
                 <tr>
                     <td>{{ task.name }}</td>
+                    <td>{{ task.project.name }}</td>
                     <td>{{ task.createdAt|date('Y-m-d') }}</td>
                     <td>
                         {% if task.completed %}

@@ -23,7 +23,8 @@ class TaskRepository extends ServiceEntityRepository
 
     public function getTasksList(?int $projectId = null, ?int $userId = null, ?int $completed = null)
     {
-        $queryBuilder = $this->createQueryBuilder('t');
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->join('t.project', 'p', 'ON t.project_id = p.id');
 
         if (is_numeric($projectId)) {
             $queryBuilder->andWhere('t.project_id = :project_id')
