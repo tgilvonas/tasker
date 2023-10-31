@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -18,17 +20,26 @@ class UserController extends AbstractController
 
     protected UserRepository $userRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository)
+    protected UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $userPasswordHasher
+    )
     {
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     #[Route('/users', name: 'users_index')]
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $usersQuery = $this->userRepository->getUsersIndexQuery();
+
         return $this->render('user/index.html.twig', [
-            'users' => $this->userRepository->getUsersList(),
+            'users' => $paginator->paginate($usersQuery, $request->query->getInt('page', 1), 2),
         ]);
     }
 

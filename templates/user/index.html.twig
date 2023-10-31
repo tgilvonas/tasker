@@ -31,11 +31,9 @@
                 {% endfor %}
             </tbody>
         </table>
-        {#
-        {% if showPagination|default(false) and showPagination %}
+        <div class="my-3">
             {{ knp_pagination_render(users) }}
-        {% endif %}
-        #}
+        </div>
     {% else %}
         <div class="mt-3">{{ 'no_records'|trans }}</div>
     {% endif %}
