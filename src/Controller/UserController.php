@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -39,7 +38,7 @@ class UserController extends AbstractController
         $usersQuery = $this->userRepository->getUsersIndexQuery();
 
         return $this->render('user/index.html.twig', [
-            'users' => $paginator->paginate($usersQuery, $request->query->getInt('page', 1), 2),
+            'users' => $paginator->paginate($usersQuery, $request->query->getInt('page', 1), 10),
         ]);
     }
 
@@ -48,11 +47,12 @@ class UserController extends AbstractController
     {
         $user = new User();
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserFormType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             $this->addFlash('success', 'record_created');
@@ -69,11 +69,18 @@ class UserController extends AbstractController
     {
         $user = $this->userRepository->find($id);
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserFormType::class, $user);
+
+        $oldPassword = $user->getPassword();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            if (empty($user->getPassword())) {
+                $user->setPassword($oldPassword);
+            } else {
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
+            }
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             $this->addFlash('success', 'record_updated');
