@@ -4,14 +4,46 @@
 
 {% block body %}
     <h1 class="mb-3">{{ 'summary'|trans }}</h1>
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-3">{{ 'projects_completion'|trans }}</h2>
+                    {% for project in projectsCompletionData %}
+                        <div class="progress" style="height: 20px;" class="mb-1">
+                            {% if project.tasks_total > 0 %}
+                                <div class="progress-bar" role="progressbar" style="width: {{ project.tasks_completed / project.tasks_total * 100 }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% else %}
+                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <a href="{{ path('tasks_index', {'project_id': project.id, 'completed': 0}) }}" class="text-decoration-none">
+                                {{ project.name }} {{ project.tasks_completed }}/{{ project.tasks_total }}
+                                {% if project.tasks_total > 0 %}
+                                    ({{ (project.tasks_completed / project.tasks_total * 100)|round }}%)
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    Here should be some metrics
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-sm-12 mb-3">
             <div class="card">
                 <div class="card-body">
                     Here should be some metrics
-                </div>
-                <div class="">
-
                 </div>
             </div>
         </div>
