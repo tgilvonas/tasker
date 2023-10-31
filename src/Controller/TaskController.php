@@ -43,6 +43,7 @@ class TaskController extends AbstractController
             $task = $form->getData();
             $this->entityManager->persist($task);
             $this->entityManager->flush();
+            $this->addFlash('success', 'record_created');
             return $this->redirectToRoute('tasks_index');
         }
 
@@ -63,6 +64,7 @@ class TaskController extends AbstractController
             $task = $form->getData();
             $this->entityManager->persist($task);
             $this->entityManager->flush();
+            $this->addFlash('success', 'record_updated');
             return $this->redirectToRoute('tasks_index');
         }
 
@@ -78,6 +80,8 @@ class TaskController extends AbstractController
 
         $this->entityManager->remove($task);
         $this->entityManager->flush();
+
+        $this->addFlash('success', 'record_deleted');
 
         return $this->redirectToRoute('tasks_index');
     }

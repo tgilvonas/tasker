@@ -1,5 +1,26 @@
 {% extends 'dashboard.html.twig' %}
 
+{% trans_default_domain 'app' %}
+
 {% block body %}
-<div>This is dashboard</div>
+    <h1 class="mb-3">{{ 'summary'|trans }}</h1>
+    <div class="row">
+        <div class="col-md-4 col-sm-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    Here should be some metrics
+                </div>
+                <div class="">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    Here should be some metrics
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

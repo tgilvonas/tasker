@@ -43,6 +43,7 @@ class ProjectController extends AbstractController
             $project = $form->getData();
             $this->entityManager->persist($project);
             $this->entityManager->flush();
+            $this->addFlash('success', 'record_created');
             return $this->redirectToRoute('projects_index');
         }
 
@@ -63,6 +64,7 @@ class ProjectController extends AbstractController
             $project = $form->getData();
             $this->entityManager->persist($project);
             $this->entityManager->flush();
+            $this->addFlash('success', 'record_updated');
             return $this->redirectToRoute('projects_index');
         }
 
@@ -78,6 +80,8 @@ class ProjectController extends AbstractController
 
         $this->entityManager->remove($project);
         $this->entityManager->flush();
+
+        $this->addFlash('success', 'record_deleted');
 
         return $this->redirectToRoute('projects_index');
     }

@@ -18,3 +18,11 @@ project: Project
 task: Task
 save: Save
 are_you_sure_you_want_to_delete: Are you sure you want to delete?
+record_created: Record created
+record_updated: Record updated
+record_deleted: Record deleted
+summary: Summary
+date: Date
+completed: Completed
+yes: Yes
+no: No

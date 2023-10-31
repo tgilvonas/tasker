@@ -12,6 +12,8 @@
             <thead>
             <tr>
                 <th>{{ 'name'|trans }}</th>
+                <th>{{ 'date'|trans }}</th>
+                <th>{{ 'completed'|trans }}</th>
                 <th>{{ 'actions'|trans }}</th>
             </tr>
             </thead>
@@ -19,6 +21,14 @@
             {% for task in tasks %}
                 <tr>
                     <td>{{ task.name }}</td>
+                    <td>{{ task.createdAt|date('Y-m-d') }}</td>
+                    <td>
+                        {% if task.completed %}
+                            <span class="badge rounded-pill bg-success">{{ 'yes'|trans }}</span>
+                        {% else %}
+                            <span class="badge rounded-pill bg-danger">{{ 'no'|trans }}</span>
+                        {% endif %}
+                    </td>
                     <td>
                         <a href="{{ path('update_task', {'id': task.id}) }}" class="btn btn-primary">
                             {{ 'edit'|trans }}

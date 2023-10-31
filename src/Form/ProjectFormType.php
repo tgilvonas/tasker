@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,7 @@ class ProjectFormType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('ord')
-            ->add('created_at')
+            ->add('created_at', DateType::class, ['widget' => 'single_text'])
             ->add('users', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
