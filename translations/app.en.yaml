@@ -26,3 +26,10 @@ date: Date
 completed: Completed
 yes: Yes
 no: No
+search_by_words: Search by words
+select: Select
+date_from: Date from
+date_to: Date to
+all: All
+clear_search: Clear search
+search: Search

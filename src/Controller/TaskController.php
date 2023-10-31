@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskFormType;
+use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,19 +16,30 @@ class TaskController extends AbstractController
 {
     protected EntityManagerInterface $entityManager;
 
+    protected ProjectRepository $projectRepository;
+
     protected TaskRepository $taskRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, TaskRepository $taskRepository)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ProjectRepository $projectRepository,
+        TaskRepository $taskRepository
+    )
     {
         $this->entityManager = $entityManager;
+        $this->projectRepository = $projectRepository;
         $this->taskRepository = $taskRepository;
     }
 
     #[Route('/tasks', name: 'tasks_index')]
     public function index(Request $request): Response
     {
+        $searchParams = $request->query->all();
+
         return $this->render('task/index.html.twig', [
-            'tasks' => $this->taskRepository->getTasksList(),
+            'tasks' => $this->taskRepository->getTasksList($searchParams),
+            'projects' => $this->projectRepository->getProjectsList(),
+            'searchParams' => $searchParams,
         ]);
     }
 

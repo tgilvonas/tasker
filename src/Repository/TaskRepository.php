@@ -21,21 +21,35 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function getTasksList(?int $projectId = null, ?int $userId = null, ?int $completed = null)
+    public function getTasksList(?array $searchParams = null)
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->join('t.project', 'p', 'ON t.project_id = p.id');
 
-        if (is_numeric($projectId)) {
-            $queryBuilder->andWhere('t.project_id = :project_id')
-                ->setParameter('project_id', $projectId);
+        if (!empty($searchParams['word'] ?? null)) {
+            $queryBuilder->andWhere('t.name LIKE :word OR t.description LIKE :word OR p.name LIKE :word OR p.description LIKE :word')
+                ->setParameter('word', '%' . $searchParams['word'] . '%');
         }
-        if (is_numeric($userId)) {
+
+        if (!empty($searchParams['date_from'] ?? null)) {
+            $queryBuilder->andWhere('t.created_at >= :date_from')
+                ->setParameter('date_from', $searchParams['date_from']);
+        }
+        if (!empty($searchParams['date_to'] ?? null)) {
+            $queryBuilder->andWhere('t.created_at <= :date_to')
+                ->setParameter('date_to', $searchParams['date_to']);
+        }
+
+        if (is_numeric($searchParams['project_id'] ?? null)) {
+            $queryBuilder->andWhere('t.project_id = :project_id')
+                ->setParameter('project_id', $searchParams['project_id']);
+        }
+        if (is_numeric($searchParams['user_id'] ?? null)) {
             //@todo
         }
-        if (is_numeric($completed)) {
+        if (is_numeric($searchParams['completed'] ?? null)) {
             $queryBuilder->andWhere('t.completed = :completed')
-                ->setParameter('completed', $completed);
+                ->setParameter('completed', $searchParams['completed']);
         }
 
         return $queryBuilder->getQuery()

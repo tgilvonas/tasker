@@ -7,6 +7,54 @@
     <div class="mb-3">
         <a href="{{ path('create_task') }}" class="btn btn-success">{{ 'create'|trans }}</a>
     </div>
+    <form class="py-3">
+        <div class="mb-1">
+            <label class="mb-1">{{ 'search_by_words'|trans }}</label>
+            <input type="text" name="word" class="form-control mb-1" value="{{ searchParams['word'] ?? '' }}" />
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-1">
+                <label class="mb-1">{{ 'project'|trans }}</label>
+                <select name="project_id" class="form-control mb-1">
+                    <option value="">{{ 'select'|trans }}</option>
+                    {% for project in projects %}
+                        <option
+                                value="{{ project.id }}"
+                                {% if searchParams['project_id'] is defined and searchParams['project_id'] == project.id %}selected{% endif %}
+                        >
+                            {{ project.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-1">
+                <label class="mb-1">{{ 'completed'|trans }}</label>
+                <select name="completed" class="form-control mb-1">
+                    <option value="">{{ 'all'|trans }}</option>
+                    <option value="1" {% if searchParams['completed'] is defined and searchParams['completed'] == 1 %}selected{% endif %}>
+                        {{ 'yes'|trans }}
+                    </option>
+                    <option value="0" {% if searchParams['completed'] is defined and searchParams['completed'] == 0 %}selected{% endif %}>
+                        {{ 'no'|trans }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-1">
+                <label class="mb-1">{{ 'date_from'|trans }}</label>
+                <input type="date" name="date_from" class="form-control mb-1" value="{{ searchParams['date_from'] ?? '' }}">
+            </div>
+            <div class="col-md-6 col-sm-12 mb-1">
+                <label class="mb-1">{{ 'date_to'|trans }}</label>
+                <input type="date" name="date_to" class="form-control mb-1" value="{{ searchParams['date_to'] ?? '' }}">
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="{{ path('tasks_index') }}" class="btn btn-warning">{{ 'clear_search'|trans }}</a>
+            <button type="submit" class="btn btn-primary">{{ 'search'|trans }}</button>
+        </div>
+    </form>
     {% if tasks and tasks|length %}
         <table class="table table-bordered">
             <thead>
@@ -23,7 +71,7 @@
                 <tr>
                     <td>{{ task.name }}</td>
                     <td>
-                        <a href="{{ path('update_project', {'id': task.project.id}) }}">
+                        <a href="{{ path('update_project', {'id': task.project.id}) }}" class="badge rounded-pill bg-primary text-decoration-none">
                             {{ task.project.name }}
                         </a>
                     </td>

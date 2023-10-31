@@ -31,6 +31,9 @@ class Task
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $project_id = null;
+
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Project $project = null;
 
@@ -120,6 +123,18 @@ class Task
     public function setProject(?Project $project): static
     {
         $this->project = $project;
+
+        return $this;
+    }
+
+    public function getProjectId(): ?int
+    {
+        return $this->project_id;
+    }
+
+    public function setProjectId(?int $projectId): static
+    {
+        $this->project_id = $projectId;
 
         return $this;
     }
