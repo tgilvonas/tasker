@@ -33,3 +33,6 @@ date_to: Date to
 all: All
 clear_search: Clear search
 search: Search
+tasks_completed: Tasks completed
+tasks_uncompleted: Tasks uncompleted
+tasks_total: Tasks total

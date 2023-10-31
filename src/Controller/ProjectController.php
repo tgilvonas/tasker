@@ -26,8 +26,14 @@ class ProjectController extends AbstractController
     #[Route('/projects', name: 'projects_index')]
     public function index(): Response
     {
+        $paramsCountTotals = [
+            'total' => true,
+            'completed' => true,
+            'uncompleted' => true,
+        ];
+
         return $this->render('project/index.html.twig', [
-            'projects' => $this->projectRepository->getProjectsList(),
+            'projects' => $this->projectRepository->getProjectsList($paramsCountTotals),
         ]);
     }
 

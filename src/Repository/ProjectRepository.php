@@ -21,10 +21,27 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function getProjectsList(): array
+    public function getProjectsList(array $paramsCountTotals = []): array
     {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.ord', 'ASC')
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        $select = ['p.id', 'p.name'];
+
+        if ($paramsCountTotals['total'] ?? false) {
+            $select[] = 'COUNT(t.id) as tasks_total';
+        }
+        if ($paramsCountTotals['completed'] ?? false) {
+            $select[] = 'SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) as tasks_completed';
+        }
+        if ($paramsCountTotals['uncompleted'] ?? false) {
+            $select[] = 'SUM(CASE WHEN t.completed = 0 THEN 1 ELSE 0 END) as tasks_uncompleted';
+        }
+
+        $queryBuilder->select($select)
+            ->leftJoin('p.tasks', 't');
+
+        return $queryBuilder->orderBy('p.ord', 'ASC')
+            ->groupBy('p.id')
             ->getQuery()
             ->getResult();
     }
