@@ -26,6 +26,7 @@ class TaskFormType extends AbstractType
             ->add('project', EntityType::class, [
                 'class' => Project::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Select',
             ])
             ->add('users', EntityType::class, [
                 'class' => User::class,

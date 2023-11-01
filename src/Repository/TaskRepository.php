@@ -44,15 +44,23 @@ class TaskRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('t.project_id = :project_id')
                 ->setParameter('project_id', $searchParams['project_id']);
         }
-        if (is_numeric($searchParams['user_id'] ?? null)) {
-            //@todo
-        }
         if (is_numeric($searchParams['completed'] ?? null)) {
             $queryBuilder->andWhere('t.completed = :completed')
                 ->setParameter('completed', $searchParams['completed']);
         }
 
         return $queryBuilder->getQuery()
+            ->getResult();
+    }
+
+    public function getTasksTotals()
+    {
+        return $this->createQueryBuilder('t')
+            ->select([
+                'COUNT(t.id) as tasks_total',
+                'SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) as tasks_completed'
+            ])
+            ->getQuery()
             ->getResult();
     }
 
