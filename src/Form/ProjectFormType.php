@@ -20,7 +20,10 @@ class ProjectFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'name'])
-            ->add('description', TextareaType::class, ['label' => 'description'])
+            ->add('description', TextareaType::class, [
+                'label' => 'description',
+                'required' => false,
+            ])
             ->add('ord', NumberType::class, ['label' => 'ord'])
             ->add('created_at', DateType::class, [
                 'widget' => 'single_text',

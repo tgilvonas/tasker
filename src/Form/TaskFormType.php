@@ -21,8 +21,14 @@ class TaskFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'name'])
-            ->add('description', TextareaType::class, ['label' => 'description'])
-            ->add('time', TextType::class, ['label' => 'time'])
+            ->add('description', TextareaType::class, [
+                'label' => 'description',
+                'required' => false,
+            ])
+            ->add('time', TextType::class, [
+                'label' => 'time',
+                'required' => false,
+            ])
             ->add('completed', CheckboxType::class, [
                 'required' => false,
                 'label' => 'completed'

@@ -47,3 +47,5 @@ created_at: Created at
 ord: Ord
 please_enter_password: Please enter a password
 repeat_password: Repeat password
+password_if_you_want_to_change: Enter new user's password (if you want to change it)
+repeat_password_if_you_want_to_change: Repeat new user's password (if you want to change it)
