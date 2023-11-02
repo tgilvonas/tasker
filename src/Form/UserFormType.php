@@ -32,9 +32,15 @@ class UserFormType extends AbstractType
                 'required' => true,
                 'label' => 'roles'
             ])
-            ->add('password', PasswordType::class, [
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
                 'required' => empty($options['data']?->getPassword()),
-                'label' => 'password',
+                'first_options'  => [
+                    'label' => empty($options['data']?->getPassword()) ? 'password': 'password_if_you_want_to_change'
+                ],
+                'second_options' => [
+                    'label' => empty($options['data']?->getPassword()) ? 'repeat_password': 'repeat_password_if_you_want_to_change'
+                ],
             ])
             ->add('submit', SubmitType::class, ['label' => 'save'])
         ;
