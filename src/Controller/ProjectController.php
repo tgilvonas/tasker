@@ -42,7 +42,7 @@ class ProjectController extends AbstractController
     {
         $project = new Project();
 
-        $form = $this->createForm(ProjectFormType::class, $project);
+        $form = $this->createForm(ProjectFormType::class, $project, ['translation_domain' => 'app']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class ProjectController extends AbstractController
     {
         $project = $this->projectRepository->find($id);
 
-        $form = $this->createForm(ProjectFormType::class, $project);
+        $form = $this->createForm(ProjectFormType::class, $project, ['translation_domain' => 'app']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

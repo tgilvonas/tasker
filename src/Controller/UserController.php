@@ -47,7 +47,7 @@ class UserController extends AbstractController
     {
         $user = new User();
 
-        $form = $this->createForm(UserFormType::class, $user);
+        $form = $this->createForm(UserFormType::class, $user, ['translation_domain' => 'app']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +69,7 @@ class UserController extends AbstractController
     {
         $user = $this->userRepository->find($id);
 
-        $form = $this->createForm(UserFormType::class, $user);
+        $form = $this->createForm(UserFormType::class, $user, ['translation_domain' => 'app']);
 
         $oldPassword = $user->getPassword();
 

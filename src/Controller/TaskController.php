@@ -48,7 +48,7 @@ class TaskController extends AbstractController
     {
         $task = new Task();
 
-        $form = $this->createForm(TaskFormType::class, $task);
+        $form = $this->createForm(TaskFormType::class, $task, ['translation_domain' => 'app']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -69,7 +69,7 @@ class TaskController extends AbstractController
     {
         $task = $this->taskRepository->find($id);
 
-        $form = $this->createForm(TaskFormType::class, $task);
+        $form = $this->createForm(TaskFormType::class, $task, ['translation_domain' => 'app']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

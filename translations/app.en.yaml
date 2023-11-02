@@ -37,3 +37,11 @@ tasks_completed: Tasks completed
 tasks_uncompleted: Tasks uncompleted
 tasks_total: Tasks total
 projects_completion: Projects completion
+roles: Roles
+role_super_admin: Super Admin
+role_user: User
+user: User
+description: Description
+time: Time
+created_at: Created at
+ord: Ord
