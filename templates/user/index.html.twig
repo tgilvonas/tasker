@@ -20,10 +20,10 @@
                     <tr>
                         <td>{{ user.email }}</td>
                         <td>
-                            <a href="{{ path('update_user', {'id': user.id}) }}" class="btn btn-primary">
+                            <a href="{{ path('update_user', {'id': user.id}) }}" class="btn btn-primary mb-1">
                                 {{ 'edit'|trans }}
                             </a>
-                            <a href="{{ path('delete_user', {'id': user.id}) }}" onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');" class="btn btn-danger">
+                            <a href="{{ path('delete_user', {'id': user.id}) }}" onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');" class="btn btn-danger mb-1">
                                 {{ 'delete'|trans }}
                             </a>
                         </td>

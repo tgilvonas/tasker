@@ -84,12 +84,12 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{ path('update_task', {'id': task.id}) }}" class="btn btn-primary">
+                        <a href="{{ path('update_task', {'id': task.id}) }}" class="btn btn-primary mb-1">
                             {{ 'edit'|trans }}
                         </a>
                         <a href="{{ path('delete_task', {'id': task.id}) }}"
                            onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');"
-                           class="btn btn-danger"
+                           class="btn btn-danger mb-1"
                         >
                             {{ 'delete'|trans }}
                         </a>
