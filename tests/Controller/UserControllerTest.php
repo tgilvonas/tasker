@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserControllerTest extends WebTestCase
 {
@@ -14,14 +13,13 @@ class UserControllerTest extends WebTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $testUser = $userRepository->findOneByEmail('petras@tasker.com');
+        $user = $userRepository->findOneByEmail('peter@tasker.com');
 
-        $client->loginUser($testUser);
+        $client->loginUser($user);
 
         $crawler = $client->request('GET', '/users');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString('petras@tasker.com', $crawler->text());
+        $this->assertStringContainsString($user->getEmail(), $crawler->text());
     }
 }

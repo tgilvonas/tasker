@@ -8,14 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserRepositoryTest extends WebTestCase
 {
-    public function testIfFunctionGetUsersListReturnsArrayOfUsers(): void
-    {
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        $this->assertIsArray($userRepository->getUsersList());
-    }
-
-    public function testIfFunctionGetUsersIndexQueryReturnsQueryObject(): void
+    public function testGetUsersIndexQueryFunction(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
 
