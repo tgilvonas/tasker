@@ -37,10 +37,9 @@ class ProjectRepository extends ServiceEntityRepository
             $select[] = 'SUM(CASE WHEN t.completed = 0 THEN 1 ELSE 0 END) as tasks_uncompleted';
         }
 
-        $queryBuilder->select($select)
-            ->leftJoin('p.tasks', 't');
-
-        return $queryBuilder->orderBy('p.ord', 'ASC')
+        return $queryBuilder->select($select)
+            ->leftJoin('p.tasks', 't')
+            ->orderBy('p.ord', 'ASC')
             ->groupBy('p.id')
             ->getQuery()
             ->getResult();

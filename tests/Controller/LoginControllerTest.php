@@ -2,15 +2,21 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class LoginControllerTest extends WebTestCase
+class LoginControllerTest extends GenericControllerTestCase
 {
     public function testIfLoginPageWorks(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/');
+        $this->client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
+    }
+
+    public function testIfLogoutFunctionWorks(): void
+    {
+        $this->client->loginUser($this->superAdminUser);
+
+        $this->client->request('GET', '/logout');
+
+        $this->assertResponseRedirects('/');
     }
 }

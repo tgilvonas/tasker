@@ -2,24 +2,15 @@
 
 namespace App\Tests\Controller;
 
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends GenericControllerTestCase
 {
     public function testUsersControllerIndex(): void
     {
-        $client = static::createClient();
+        $this->client->loginUser($this->superAdminUser);
 
-        $userRepository = static::getContainer()->get(UserRepository::class);
-
-        $user = $userRepository->findOneByEmail('peter@tasker.com');
-
-        $client->loginUser($user);
-
-        $crawler = $client->request('GET', '/users');
+        $crawler = $this->client->request('GET', '/users');
 
         $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString($user->getEmail(), $crawler->text());
+        $this->assertStringContainsString($this->superAdminUser->getEmail(), $crawler->text());
     }
 }
