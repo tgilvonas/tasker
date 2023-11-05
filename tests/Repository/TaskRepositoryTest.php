@@ -23,4 +23,13 @@ class TaskRepositoryTest extends WebTestCase
 
         $this->assertIsArray($taskRepository->getTasksList($searchParams));
     }
+
+    public function testGetTasksTotalsFunction(): void
+    {
+        $taskRepository = static::getContainer()->get(TaskRepository::class);
+
+        $tasksTotalsData = $taskRepository->getTasksTotals();
+
+        $this->assertIsNumeric($tasksTotalsData[0]['tasks_total']);
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 class UserControllerTest extends GenericControllerTestCase
 {
-    public function testUsersControllerIndex(): void
+    public function testIndex(): void
     {
         $this->client->loginUser($this->superAdminUser);
 
