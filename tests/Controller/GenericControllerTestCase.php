@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class GenericControllerTestCase extends WebTestCase
 {
@@ -21,6 +22,8 @@ class GenericControllerTestCase extends WebTestCase
 
     protected User $user;
 
+    protected object $translator;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -35,5 +38,12 @@ class GenericControllerTestCase extends WebTestCase
         $this->superAdminUser = $this->userRepository->findOneByEmail('peter@tasker.com');
 
         $this->user = $this->userRepository->findOneByEmail('john@tasker.com');
+
+        $this->translator = static::getContainer()->get(TranslatorInterface::class);
+    }
+
+    protected function translate(string $translationKey, string $domain = 'app'): string
+    {
+        return $this->translator->trans($translationKey, [], $domain);
     }
 }
