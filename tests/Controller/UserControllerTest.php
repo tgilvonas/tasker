@@ -6,6 +6,9 @@ class UserControllerTest extends GenericControllerTestCase
 {
     public function testIndex(): void
     {
+        $this->client->request('GET', '/users');
+        $this->assertResponseRedirects($this->baseUrl . '/');
+
         $this->client->loginUser($this->superAdminUser);
 
         $crawler = $this->client->request('GET', '/users');
