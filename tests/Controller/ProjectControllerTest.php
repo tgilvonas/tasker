@@ -15,13 +15,13 @@ class ProjectControllerTest extends GenericControllerTestCase
         $this->projectRepository = static::getContainer()->get(ProjectRepository::class);
     }
 
-    public function testIndex(): void
+    public function testIndexAction(): void
     {
         $this->client->request('GET', '/projects');
         $this->assertResponseRedirects($this->baseUrl . '/');
 
         $this->client->loginUser($this->superAdminUser);
-        $crawler = $this->client->request('GET', '/projects');
+        $this->client->request('GET', '/projects');
         $this->assertResponseIsSuccessful();
     }
 
@@ -30,11 +30,11 @@ class ProjectControllerTest extends GenericControllerTestCase
         $this->client->request('GET', '/projects/create');
         $this->assertResponseRedirects($this->baseUrl . '/');
 
+        $this->client->followRedirects();
+
         $this->client->loginUser($this->superAdminUser);
         $crawler = $this->client->request('GET', '/projects/create');
         $this->assertResponseIsSuccessful();
-
-        $this->client->followRedirects();
 
         $buttonCrawlerNode = $crawler->selectButton('project_form[submit]');
         $form = $buttonCrawlerNode->form();
@@ -44,6 +44,31 @@ class ProjectControllerTest extends GenericControllerTestCase
         $form['project_form[created_at]'] = date('Y-m-d');
         $crawler = $this->client->submit($form);
         $this->assertStringContainsString('Project 1', $crawler->text());
+        $this->assertStringContainsString($this->translate('record_created'), $crawler->text());
+    }
+
+    public function testUpdateAction(): void
+    {
+        $this->client->followRedirects();
+
+        $project = $this->projectRepository->findAll()[0];
+
+        $this->client->loginUser($this->superAdminUser);
+        $crawler = $this->client->request('GET', '/projects/update/' . $project->getId());
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('project_form[submit]');
+        $form = $buttonCrawlerNode->form();
+        $form['project_form[name]'] = 'Project 2';
+        $form['project_form[description]'] = 'This is the description of Project 2.';
+        $form['project_form[ord]'] = 2;
+        $form['project_form[created_at]'] = '2023-10-02';
+        $crawler = $this->client->submit($form);
+        $this->assertStringContainsString($this->translate('record_updated'), $crawler->text());
+
+        $crawler = $this->client->request('GET', '/projects/update/' . $project->getId());
+        $this->assertStringContainsString('Project 2', $crawler->text());
+        $this->assertStringContainsString('This is the description of Project 2.', $crawler->text());
     }
 
     public function testDeleteAction(): void
