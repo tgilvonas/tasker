@@ -30,6 +30,7 @@ class TaskRepositoryTest extends WebTestCase
 
         $tasksTotalsData = $taskRepository->getTasksTotals();
 
-        $this->assertIsNumeric($tasksTotalsData[0]['tasks_total']);
+        $this->assertIsArray($tasksTotalsData);
+        $this->assertIsNumeric($tasksTotalsData['tasks_total']);
     }
 }

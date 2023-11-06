@@ -38,16 +38,16 @@
                 <div class="card-body">
                     <h2 class="mb-3">{{ 'tasks_total'|trans }}</h2>
                     <div class="progress" style="height: 20px;" class="mb-1">
-                        {% if tasksTotals[0].tasks_total > 0 %}
-                            <div class="progress-bar" role="progressbar" style="width: {{ tasksTotals[0].tasks_completed / tasksTotals[0].tasks_total * 100 }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        {% if tasksTotals.tasks_total > 0 %}
+                            <div class="progress-bar" role="progressbar" style="width: {{ tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100 }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         {% else %}
                             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         {% endif %}
                     </div>
                     <div class="mb-3">
-                        {{ tasksTotals[0].tasks_completed }}/{{ tasksTotals[0].tasks_total }}
-                        {% if tasksTotals[0].tasks_total > 0 %}
-                            ({{ (tasksTotals[0].tasks_completed / tasksTotals[0].tasks_total * 100)|round }}%)
+                        {{ tasksTotals['tasks_completed'] }}/{{ tasksTotals['tasks_total'] }}
+                        {% if tasksTotals.tasks_total > 0 %}
+                            ({{ (tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100)|round }}%)
                         {% else %}
                             (0%)
                         {% endif %}

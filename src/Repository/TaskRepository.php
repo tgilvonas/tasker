@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,7 +22,7 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function getTasksList(?array $searchParams = null)
+    public function getTasksList(?array $searchParams = null): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->join('t.project', 'p', 'ON t.project_id = p.id');
@@ -53,7 +54,10 @@ class TaskRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getTasksTotals()
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getTasksTotals(): array
     {
         return $this->createQueryBuilder('t')
             ->select([
@@ -61,7 +65,7 @@ class TaskRepository extends ServiceEntityRepository
                 'SUM(CASE WHEN t.completed = 1 THEN 1 ELSE 0 END) as tasks_completed'
             ])
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
 //    /**
