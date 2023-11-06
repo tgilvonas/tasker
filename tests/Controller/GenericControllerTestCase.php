@@ -11,6 +11,10 @@ class GenericControllerTestCase extends WebTestCase
 {
     protected KernelBrowser $client;
 
+    protected string $baseUrl;
+
+    protected string $httpHost;
+
     protected ?object $userRepository;
 
     protected User $superAdminUser;
@@ -21,7 +25,10 @@ class GenericControllerTestCase extends WebTestCase
     {
         parent::setUp();
 
-        $this->client = static::createClient();
+        $this->httpHost = $_ENV['HTTP_HOST'];
+        $this->baseUrl = $_ENV['BASE_URL'];
+
+        $this->client = static::createClient([], ['HTTP_HOST' => $this->httpHost]);
 
         $this->userRepository = static::getContainer()->get(UserRepository::class);
 
