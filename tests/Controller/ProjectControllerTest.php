@@ -20,6 +20,10 @@ class ProjectControllerTest extends GenericControllerTestCase
         $this->client->request('GET', '/projects');
         $this->assertResponseRedirects($this->baseUrl . '/');
 
+        $this->client->loginUser($this->user);
+        $this->client->request('GET', '/projects');
+        $this->assertResponseIsSuccessful();
+
         $this->client->loginUser($this->superAdminUser);
         $this->client->request('GET', '/projects');
         $this->assertResponseIsSuccessful();
@@ -31,6 +35,12 @@ class ProjectControllerTest extends GenericControllerTestCase
         $this->assertResponseRedirects($this->baseUrl . '/');
 
         $this->client->followRedirects();
+
+        $this->client->loginUser($this->user);
+        $this->client->request('GET', '/projects/create');
+        $this->assertResponseStatusCodeSame(403);
+        $this->client->request('POST', '/projects/create');
+        $this->assertResponseStatusCodeSame(403);
 
         $this->client->loginUser($this->superAdminUser);
         $crawler = $this->client->request('GET', '/projects/create');
@@ -52,6 +62,10 @@ class ProjectControllerTest extends GenericControllerTestCase
         $this->client->followRedirects();
 
         $project = $this->projectRepository->findAll()[0];
+
+        $this->client->loginUser($this->user);
+        $this->client->request('GET', '/projects/update/' . $project->getId());
+        $this->assertResponseIsSuccessful();
 
         $this->client->loginUser($this->superAdminUser);
         $crawler = $this->client->request('GET', '/projects/update/' . $project->getId());
@@ -76,6 +90,10 @@ class ProjectControllerTest extends GenericControllerTestCase
         $project = $this->projectRepository->findAll()[0];
 
         $this->client->followRedirects();
+
+        $this->client->loginUser($this->user);
+        $this->client->request('POST', '/projects/delete/' . $project->getId());
+        $this->assertResponseStatusCodeSame(403);
 
         $this->client->loginUser($this->superAdminUser);
         $crawler = $this->client->request('POST', '/projects/delete/' . $project->getId());

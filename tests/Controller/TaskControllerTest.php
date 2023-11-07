@@ -26,6 +26,15 @@ class TaskControllerTest extends GenericControllerTestCase
         $this->client->loginUser($this->superAdminUser);
         $this->client->request('GET', '/tasks');
         $this->assertResponseIsSuccessful();
+
+        $this->client->request('GET', '/tasks', [
+            'word' => 'A word to search',
+            'project_id' => 1,
+            'completed' => 1,
+            'date_from' => '2023-10-03',
+            'date_to' => date('Y-m-d'),
+        ]);
+        $this->assertResponseIsSuccessful();
     }
 
     public function testCreateAction(): void
