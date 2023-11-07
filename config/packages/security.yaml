@@ -37,6 +37,7 @@ security:
         - { path: '^/tasks/(create|delete)', roles: ROLE_SUPER_ADMIN }
         - { path: '^/tasks', roles: ROLE_USER }
         - { path: '^/users', roles: ROLE_SUPER_ADMIN }
+        - { path: '^/profile', roles: ROLE_USER }
 
 when@test:
     security:

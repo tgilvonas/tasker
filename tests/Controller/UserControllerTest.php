@@ -94,4 +94,21 @@ class UserControllerTest extends GenericControllerTestCase
         $crawler = $this->client->request('POST', '/users/delete/' . $user->getId());
         $this->assertStringContainsString($this->translate('record_deleted'), $crawler->text());
     }
+
+    public function testUserProfile(): void
+    {
+        $this->client->followRedirects();
+
+        $this->client->loginUser($this->user);
+        $crawler = $this->client->request('GET', '/profile');
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('user_profile_form[submit]');
+        $form = $buttonCrawlerNode->form();
+        $form['user_profile_form[email]'] = 'john@tasker.com';
+        $form['user_profile_form[password][first]'] = 'pa55word123456789';
+        $form['user_profile_form[password][second]'] = 'pa55word123456789';
+        $crawler = $this->client->submit($form);
+        $this->assertStringContainsString($this->translate('profile_updated'), $crawler->text());
+    }
 }

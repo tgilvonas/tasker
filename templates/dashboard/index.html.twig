@@ -45,7 +45,7 @@
                         {% endif %}
                     </div>
                     <div class="mb-3">
-                        {{ tasksTotals['tasks_completed'] }}/{{ tasksTotals['tasks_total'] }}
+                        {% if tasksTotals['tasks_completed'] is not null %}{{ tasksTotals['tasks_completed'] }}/{% endif %}{{ tasksTotals['tasks_total'] }}
                         {% if tasksTotals.tasks_total > 0 %}
                             ({{ (tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100)|round }}%)
                         {% else %}

@@ -49,3 +49,6 @@ please_enter_password: Please enter a password
 repeat_password: Repeat password
 password_if_you_want_to_change: Enter new user's password (if you want to change it)
 repeat_password_if_you_want_to_change: Repeat new user's password (if you want to change it)
+profile_updated: Your profile was updated
+passwords_must_match: Passwords must match
+my_profile: My profile

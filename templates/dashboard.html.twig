@@ -28,9 +28,15 @@
                         <li class="nav-item">
                             <a href="{{ path('projects_index') }}" class="nav-link">{{ 'projects'|trans }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ path('users_index') }}" class="nav-link">{{ 'users'|trans }}</a>
-                        </li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <li class="nav-item">
+                                <a href="{{ path('users_index') }}" class="nav-link">{{ 'users'|trans }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ path('user_profile') }}" class="nav-link">{{ 'my_profile'|trans }}</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a href="{{ path('app_logout') }}" class="nav-link">{{ 'logout'|trans }}</a>
                         </li>

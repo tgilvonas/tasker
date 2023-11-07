@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Form\UserProfileFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class UserController extends AbstractController
 {
@@ -103,5 +105,38 @@ class UserController extends AbstractController
         $this->addFlash('success', 'record_deleted');
 
         return $this->redirectToRoute('users_index');
+    }
+
+    #[Route('/profile', name: 'user_profile')]
+    public function profile(Request $request, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        $oldPassword = $user->getPassword();
+        $roles = $user->getRoles();
+
+        $form = $this->createForm(UserProfileFormType::class, $user, ['translation_domain' => 'app']);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            if (empty($user->getPassword())) {
+                $user->setPassword($oldPassword);
+            } else {
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('password')->getData()));
+            }
+
+            $user->setRoles($roles);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'profile_updated');
+            return $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('user/profile.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
