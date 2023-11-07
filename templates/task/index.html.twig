@@ -3,10 +3,12 @@
 {% trans_default_domain 'app' %}
 
 {% block body %}
-    <h1>{{ 'tasks'|trans }}</h1>
-    <div class="mb-3">
-        <a href="{{ path('create_task') }}" class="btn btn-success">{{ 'create'|trans }}</a>
-    </div>
+    <h1 class="mb-3">{{ 'tasks'|trans }}</h1>
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+        <div class="mb-3">
+            <a href="{{ path('create_task') }}" class="btn btn-success">{{ 'create'|trans }}</a>
+        </div>
+    {% endif %}
     <form class="py-3">
         <div class="mb-1">
             <label class="mb-1">{{ 'search_by_words'|trans }}</label>
@@ -63,7 +65,7 @@
                 <th>{{ 'project'|trans }}</th>
                 <th>{{ 'date'|trans }}</th>
                 <th>{{ 'completed'|trans }}</th>
-                <th>{{ 'actions'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -87,12 +89,14 @@
                         <a href="{{ path('update_task', {'id': task.id}) }}" class="btn btn-primary mb-1">
                             {{ 'edit'|trans }}
                         </a>
-                        <a href="{{ path('delete_task', {'id': task.id}) }}"
-                           onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');"
-                           class="btn btn-danger mb-1"
-                        >
-                            {{ 'delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('delete_task', {'id': task.id}) }}"
+                               onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');"
+                               class="btn btn-danger mb-1"
+                            >
+                                {{ 'delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

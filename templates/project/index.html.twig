@@ -3,10 +3,12 @@
 {% trans_default_domain 'app' %}
 
 {% block body %}
-    <h1>{{ 'projects'|trans }}</h1>
-    <div class="mb-3">
-        <a href="{{ path('create_project') }}" class="btn btn-success">{{ 'create'|trans }}</a>
-    </div>
+    <h1 class="mb-3">{{ 'projects'|trans }}</h1>
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+        <div class="mb-3">
+            <a href="{{ path('create_project') }}" class="btn btn-success">{{ 'create'|trans }}</a>
+        </div>
+    {% endif %}
     {% if projects and projects|length %}
         <table class="table table-bordered">
             <thead>
@@ -15,7 +17,7 @@
                 <th>{{ 'tasks_completed'|trans }}</th>
                 <th>{{ 'tasks_uncompleted'|trans }}</th>
                 <th>{{ 'tasks_total'|trans }}</th>
-                <th>{{ 'actions'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -41,12 +43,14 @@
                         <a href="{{ path('update_project', {'id': project.id}) }}" class="btn btn-primary mb-1">
                             {{ 'edit'|trans }}
                         </a>
-                        <a href="{{ path('delete_project', {'id': project.id}) }}"
-                           onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');"
-                           class="btn btn-danger mb-1"
-                        >
-                            {{ 'delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('delete_project', {'id': project.id}) }}"
+                               onclick="return confirm('{{ 'are_you_sure_you_want_to_delete'|trans }}');"
+                               class="btn btn-danger mb-1"
+                            >
+                                {{ 'delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
