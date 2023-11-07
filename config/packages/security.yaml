@@ -32,9 +32,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: '^/dashboard', roles: ROLE_USER }
-        - { path: '^/projects/(create|update|delete)', roles: ROLE_SUPER_ADMIN }
+        - { path: '^/projects/(create|delete)', roles: ROLE_SUPER_ADMIN }
         - { path: '^/projects', roles: ROLE_USER }
-        - { path: '^/tasks/(create|update|delete)', roles: ROLE_SUPER_ADMIN }
+        - { path: '^/tasks/(create|delete)', roles: ROLE_SUPER_ADMIN }
         - { path: '^/tasks', roles: ROLE_USER }
         - { path: '^/users', roles: ROLE_SUPER_ADMIN }
 
