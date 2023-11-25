@@ -25,7 +25,8 @@ class TaskRepository extends ServiceEntityRepository
     public function getTasksList(?array $searchParams = null): array
     {
         $queryBuilder = $this->createQueryBuilder('t')
-            ->join('t.project', 'p', 'ON t.project_id = p.id');
+            ->join('t.project', 'p', 'ON t.project_id = p.id')
+            ->addSelect('p');
 
         if (!empty($searchParams['word'] ?? null)) {
             $queryBuilder->andWhere('t.name LIKE :word OR t.description LIKE :word OR p.name LIKE :word OR p.description LIKE :word')
