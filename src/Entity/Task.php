@@ -14,28 +14,28 @@ class Task
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    protected ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    protected ?string $description = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $time = null;
+    protected ?string $time = null;
 
     #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $completed = null;
+    protected ?bool $completed = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $created_at = null;
+    protected ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $project_id = null;
+    protected ?int $project_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
-    private ?Project $project = null;
+    protected ?Project $project = null;
 
     /**
      * Many Tasks have Many Users.
@@ -43,7 +43,7 @@ class Task
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tasks')]
     #[ORM\JoinTable(name: 'tasks_users')]
-    private Collection $users;
+    protected Collection $users;
 
     public function __construct()
     {

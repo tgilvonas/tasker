@@ -14,22 +14,22 @@ class Project
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    protected ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    protected ?string $description = null;
 
     #[ORM\Column]
-    private ?int $ord = null;
+    protected ?int $ord = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $created_at = null;
+    protected ?\DateTimeInterface $created_at = null;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Task::class)]
-    private Collection $tasks;
+    protected Collection $tasks;
 
     /**
      * Many Projects have Many Users.
@@ -37,7 +37,7 @@ class Project
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
     #[ORM\JoinTable(name: 'projects_users')]
-    private Collection $users;
+    protected Collection $users;
 
     public function __construct()
     {

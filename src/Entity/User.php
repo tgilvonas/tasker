@@ -17,33 +17,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    protected ?string $email = null;
 
     #[ORM\Column]
-    private array $roles = [];
+    protected array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    protected ?string $password = null;
 
     /**
      * Many Users have Many Tasks.
      * @var Collection<int, Task>
      */
     #[ORM\ManyToMany(targetEntity: Task::class, mappedBy: 'users')]
-    private Collection $tasks;
+    protected Collection $tasks;
 
     /**
      * Many Users have Many Projects.
      * @var Collection<int, Project>
      */
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
-    private Collection $projects;
+    protected Collection $projects;
 
     public function __construct()
     {
