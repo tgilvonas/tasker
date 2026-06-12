@@ -25,7 +25,7 @@ class ProjectRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('p');
 
-        $select = ['p.id', 'p.name'];
+        $select = ['p.id', 'p.name', 'p.htmlColor'];
 
         if ($paramsCountTotals['total'] ?? false) {
             $select[] = 'COUNT(t.id) as tasks_total';

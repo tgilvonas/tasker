@@ -42,6 +42,7 @@ role_super_admin: Super Admin
 role_user: User
 user: User
 description: Description
+color: Color
 html_color: Color
 time: Time
 created_at: Created at
