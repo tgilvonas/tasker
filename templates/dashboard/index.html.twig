@@ -10,9 +10,9 @@
                 <div class="card-body">
                     <h2 class="mb-3">{{ 'projects_completion'|trans }}</h2>
                     {% for project in projectsCompletionData %}
-                        <div class="progress" style="height: 20px;" class="mb-1">
+                        <div class="progress mb-1" style="height: 20px;">
                             {% if project.tasks_total > 0 %}
-                                <div class="progress-bar" role="progressbar" style="width: {{ project.tasks_completed / project.tasks_total * 100 }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: {{ project.tasks_completed / project.tasks_total * 100 }}%; background-color: {{ project.htmlColor|default('#6c757d') }} !important; color: #fff;" aria-valuenow="{{ (project.tasks_completed / project.tasks_total * 100)|round }}" aria-valuemin="0" aria-valuemax="100"></div>
                             {% else %}
                                 <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             {% endif %}
@@ -37,9 +37,9 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="mb-3">{{ 'tasks_total'|trans }}</h2>
-                    <div class="progress" style="height: 20px;" class="mb-1">
+                    <div class="progress mb-1" style="height: 20px;">
                         {% if tasksTotals.tasks_total > 0 %}
-                            <div class="progress-bar" role="progressbar" style="width: {{ tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100 }}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: {{ tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100 }}%;" aria-valuenow="{{ (tasksTotals['tasks_completed'] / tasksTotals['tasks_total'] * 100)|round }}" aria-valuemin="0" aria-valuemax="100"></div>
                         {% else %}
                             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         {% endif %}
@@ -51,6 +51,48 @@
                         {% else %}
                             (0%)
                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-3">{{ 'pending_tasks_by_project'|trans }}</h2>
+                    <div class="chart-shell" style="height: 180px;"
+                         data-chart-type="pending"
+                         data-chart-labels='{{ projectsCompletionData|map(project => project.name)|json_encode|e('html_attr') }}'
+                         data-chart-values='{{ projectsCompletionData|map(project => max(0, project.tasks_total - project.tasks_completed))|json_encode|e('html_attr') }}'
+                         data-chart-colors='{{ projectsCompletionData|map(project => project.htmlColor ?? '#0d6efd')|json_encode|e('html_attr') }}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-3">{{ 'completed_tasks_by_project'|trans }}</h2>
+                    <div class="chart-shell" style="height: 180px;"
+                         data-chart-type="completed"
+                         data-chart-labels='{{ projectsCompletionData|map(project => project.name)|json_encode|e('html_attr') }}'
+                         data-chart-values='{{ projectsCompletionData|map(project => project.tasks_completed)|json_encode|e('html_attr') }}'
+                         data-chart-colors='{{ projectsCompletionData|map(project => project.htmlColor ?? '#198754')|json_encode|e('html_attr') }}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="mb-3">{{ 'all_tasks_by_project'|trans }}</h2>
+                    <div class="chart-shell" style="height: 180px;"
+                         data-chart-type="all"
+                         data-chart-labels='{{ projectsCompletionData|map(project => project.name)|json_encode|e('html_attr') }}'
+                         data-chart-values='{{ projectsCompletionData|map(project => project.tasks_total)|json_encode|e('html_attr') }}'
+                         data-chart-colors='{{ projectsCompletionData|map(project => project.htmlColor ?? '#6c757d')|json_encode|e('html_attr') }}'>
                     </div>
                 </div>
             </div>

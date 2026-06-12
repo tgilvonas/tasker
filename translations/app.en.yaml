@@ -54,3 +54,6 @@ repeat_password_if_you_want_to_change: Repeat new user's password (if you want t
 profile_updated: Your profile was updated
 passwords_must_match: Passwords must match
 my_profile: My profile
+pending_tasks_by_project: Pending tasks
+completed_tasks_by_project: Completed tasks
+all_tasks_by_project: All tasks

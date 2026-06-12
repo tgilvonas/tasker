@@ -23,6 +23,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "encore": "^0.0.30-beta"
+        "chart.js": "^4.5.1",
+        "encore": "^0.0.30-beta",
+        "vue": "^3.5.38"
     }
 }
