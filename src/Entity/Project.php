@@ -22,6 +22,9 @@ class Project
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $description = null;
 
+    #[ORM\Column(length: 7, nullable: true)]
+    protected ?string $htmlColor = null;
+
     #[ORM\Column]
     protected ?int $ord = null;
 
@@ -70,6 +73,18 @@ class Project
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getHtmlColor(): ?string
+    {
+        return $this->htmlColor;
+    }
+
+    public function setHtmlColor(?string $htmlColor): static
+    {
+        $this->htmlColor = $htmlColor;
 
         return $this;
     }
