@@ -73,7 +73,7 @@
                 <tr>
                     <td>{{ task.name }}</td>
                     <td>
-                        <a href="{{ path('update_project', {'id': task.project.id}) }}" class="badge rounded-pill bg-primary text-decoration-none">
+                        <a href="{{ path('update_project', {'id': task.project.id}) }}" class="badge rounded-pill text-decoration-none" style="background-color: {{ task.project.htmlColor|default('#6c757d') }}; color: #fff;">
                             {{ task.project.name }}
                         </a>
                     </td>
