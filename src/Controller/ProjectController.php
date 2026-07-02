@@ -32,8 +32,7 @@ class ProjectController extends AbstractController
             'completed' => true,
             'uncompleted' => true,
         ];
-
-        $projectsQuery = $this->projectRepository->getProjectsList($paramsCountTotals);
+        $projectsQuery = $this->projectRepository->getProjectsListQueryBuilder($paramsCountTotals);
 
         return $this->render('project/index.html.twig', [
             'projects' => $paginator->paginate($projectsQuery, $request->query->getInt('page', 1), 10),

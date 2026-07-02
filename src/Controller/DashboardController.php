@@ -28,8 +28,10 @@ class DashboardController extends AbstractController
             'completed' => true,
         ];
 
+        $projectsCompletionData = $this->projectRepository->getProjectsListQueryBuilder($paramsCountTotals)->getQuery()->getResult();
+
         return $this->render('dashboard/index.html.twig', [
-            'projectsCompletionData' => $this->projectRepository->getProjectsList($paramsCountTotals),
+            'projectsCompletionData' => $projectsCompletionData,
             'tasksTotals' => $this->taskRepository->getTasksTotals(),
         ]);
     }

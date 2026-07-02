@@ -22,7 +22,7 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function getProjectsList(array $paramsCountTotals = []): QueryBuilder
+    public function getProjectsListQueryBuilder(array $paramsCountTotals = []): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('p');
 

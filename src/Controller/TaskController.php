@@ -40,7 +40,7 @@ class TaskController extends AbstractController
 
         return $this->render('task/index.html.twig', [
             'tasks' => $paginator->paginate($tasksQuery, $request->query->getInt('page', 1), 10),
-            'projects' => $this->projectRepository->getProjectsList(),
+            'projects' => $this->projectRepository->getProjectsListQueryBuilder()->getQuery()->getResult(),
             'searchParams' => $searchParams,
         ]);
     }
