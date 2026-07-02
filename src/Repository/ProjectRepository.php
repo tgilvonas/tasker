@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,7 +22,7 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function getProjectsList(array $paramsCountTotals = []): array
+    public function getProjectsList(array $paramsCountTotals = []): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('p');
 
@@ -40,9 +41,7 @@ class ProjectRepository extends ServiceEntityRepository
         return $queryBuilder->select($select)
             ->leftJoin('p.tasks', 't')
             ->orderBy('p.ord', 'ASC')
-            ->groupBy('p.id')
-            ->getQuery()
-            ->getResult();
+            ->groupBy('p.id');
     }
 
 //    /**

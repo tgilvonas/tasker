@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Form\ProjectFormType;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/projects', name: 'projects_index')]
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $paramsCountTotals = [
             'total' => true,
@@ -32,8 +33,10 @@ class ProjectController extends AbstractController
             'uncompleted' => true,
         ];
 
+        $projectsQuery = $this->projectRepository->getProjectsList($paramsCountTotals);
+
         return $this->render('project/index.html.twig', [
-            'projects' => $this->projectRepository->getProjectsList($paramsCountTotals),
+            'projects' => $paginator->paginate($projectsQuery, $request->query->getInt('page', 1), 10),
         ]);
     }
 
