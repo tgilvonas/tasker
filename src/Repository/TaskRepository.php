@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,10 +23,10 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function getTasksList(?array $searchParams = null): array
+    public function getTasksList(?array $searchParams = null): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('t')
-            ->join('t.project', 'p', 'ON t.project_id = p.id')
+            ->join('t.project', 'p')
             ->addSelect('p');
 
         if (!empty($searchParams['word'] ?? null)) {
@@ -43,7 +44,7 @@ class TaskRepository extends ServiceEntityRepository
         }
 
         if (is_numeric($searchParams['project_id'] ?? null)) {
-            $queryBuilder->andWhere('t.project_id = :project_id')
+            $queryBuilder->andWhere('t.project = :project_id')
                 ->setParameter('project_id', $searchParams['project_id']);
         }
         if (is_numeric($searchParams['completed'] ?? null)) {
@@ -51,8 +52,7 @@ class TaskRepository extends ServiceEntityRepository
                 ->setParameter('completed', $searchParams['completed']);
         }
 
-        return $queryBuilder->getQuery()
-            ->getResult();
+        return $queryBuilder;
     }
 
     /**
